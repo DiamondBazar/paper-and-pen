@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autorización - Paper and Pen</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; max-width: 640px; margin: 60px auto; padding: 0 20px; line-height: 1.6; color: #1a1a1a; text-align: center; }
+  h1 { color: #e1306c; }
+  .code-box { background: #f4f4f4; border: 2px dashed #e1306c; border-radius: 10px; padding: 20px; margin: 24px 0; font-family: monospace; font-size: 15px; word-break: break-all; }
+  button { background: #e1306c; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-size: 16px; cursor: pointer; }
+  button:hover { opacity: .9; }
+  .muted { color: #777; font-size: 14px; }
+</style>
+</head>
+<body>
+<h1>Paper and Pen</h1>
+<div id="ok" style="display:none">
+  <p>✅ Autorización recibida. Copia este código y pégalo donde te lo pida Jacky:</p>
+  <div class="code-box" id="code"></div>
+  <button onclick="copyCode()">Copiar código</button>
+  <p class="muted">Puedes cerrar esta pestaña después de copiar.</p>
+</div>
+<div id="err" style="display:none">
+  <p>⚠️ No se encontró el código de autorización en la URL.</p>
+  <p class="muted" id="errdetail"></p>
+</div>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  const error = params.get('error');
+  if (code) {
+    document.getElementById('ok').style.display = 'block';
+    document.getElementById('code').textContent = code;
+  } else {
+    document.getElementById('err').style.display = 'block';
+    document.getElementById('errdetail').textContent = error ? ('Error: ' + error) : 'Falta el parámetro code.';
+  }
+  function copyCode() {
+    navigator.clipboard.writeText(code).then(() => { alert('¡Código copiado!'); });
+  }
+</script>
+</body>
+</html>
